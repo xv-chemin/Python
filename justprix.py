@@ -1,14 +1,16 @@
 #!/usr/bin/python
-# -*- coding: utf-8- -*-
+# -*- coding:utf-8 -*-
 
 import flask
 import os
 import requests
 import json
 from random import randrange
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, session
 
 app = Flask(__name__)
+
+app.secret_key = 'aLi\24/caM\11/Gas\13/.'
 
 @app.route("/", methods=['GET', 'POST'])
 def home():
@@ -19,7 +21,7 @@ def home():
             "SearchRequest": {
                 "Keyword": "tv",
                 "Pagination": {
-                    "ItemsPerPage": 5,
+                    "ItemsPerPage": 10,
                     "PageNumber": 5
                 },
                 "Filters": {
@@ -40,24 +42,21 @@ def home():
         image = objet['MainImageUrl']
         price = round(float(objet['BestOffer']['SalePrice']), 2)
         name = objet['Name']
+        session['produit'] = {'objet': objet, 'image': image, 'price': price, 'name': name}
         print(image, price, name)
 
     if request.method == 'POST':
-        price = price
-        name = name
-        image = image
         essaye = request.form['prix']
         print(essaye)
-        if essaye < price:
-            data
+        if float(essaye) < session['produit']['price']:
             resultat = "C'est plus ! essaye encore"
-        elif essaye > price:
+        elif float(essaye) > session['produit']['price']:
             resultat = "C'est moins ! essaye encore"
-        elif essaye == price:
+        elif float(essaye) == session['produit']['price']:
             resultat = "Bravo"
-        return render_template('home.html', resultat=resultat, price=price, name=name, image=image, lastTry=essaye)
+        return render_template('home.html', resultat=resultat, produit=session['produit'], lastTry=essaye)
     else:
-        return render_template('home.html', resultat="", price=price, name=name, image=image, lastTry="")
+        return render_template('home.html', resultat="", produit=session['produit'], lastTry="")
 
 if __name__ == '__main__':
     app.run(debug= True)
