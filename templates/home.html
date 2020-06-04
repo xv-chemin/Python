@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Juste Prix</title>
+</head>
+<body>
+    <h1> Juste Prix </h1>
+    <div id="produit">
+        <img src="{{ image }}">
+        <p>{{ name }}</p>
+    </div>
+    <p>Vous devez saisir dans le formulaire ci dessous un nombre ceci afin de deviner le prix mystère de l'objet</p>
+    <p> {{ price }}</p>
+    <p> {{ lastTry }} {{ resultat }}</p>
+    <form action="/" method="post">
+        <label for="Prix">Prix</label><br>
+        <input type="text" name="prix" id="idPrix">
+        <input type="submit" value="essayer">
+    </form>
+</body>
+</html>
