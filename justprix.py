@@ -1,7 +1,6 @@
 #!/usr/bin/python
 # -*- coding:utf-8 -*-
 
-import flask
 import os
 import requests
 import json
@@ -59,7 +58,7 @@ def home():
         return render_template('home.html', resultat="", produit=session['produit'], lastTry="")
 
 if __name__ == '__main__':
-    app.run(debug= True)
+    app.run(host="0.0.0.0", debug= True)
 
 
 
